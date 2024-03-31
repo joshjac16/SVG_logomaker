@@ -1,9 +1,10 @@
 const fs = require("fs");
 const inquirer = require("inquirer");
 const { circle, square, triangle } = require("./lib/shapes");
+const svg = require("./lib/svg");
 
 function validateInput(value) {
-  if (answers.text.length > 0 && answers.text.length < 4) {
+  if (value.length > 0 && value.length < 4) {
     return true;
   } else {
     console.log(
@@ -22,7 +23,7 @@ const questions = [
   },
   {
     type: "input",
-    name: "text-color",
+    name: "text_color",
     message: "Enter a TEXT COLOR keyword (OR a hexadecimal number):",
   },
   {
@@ -32,7 +33,7 @@ const questions = [
   },
   {
     type: "list",
-    name: "pixel-image",
+    name: "pixel_image",
     message: "Choose which Pixel Image you would like?",
     choices: ["Circle", "Square", "Triangle"],
   },
@@ -46,24 +47,31 @@ function writeToFile(fileName, data) {
   });
 }
 function init() {
-  inquirer.prompt(questions).then((data) => {
-    let user_shape;
-	if (data.shape === "Square" ) {
-		user_shape = new Square();
-		
-	}
-	else if (data.shape === "Circle" ) {
-		user_shape = new Circle();
-		
-	}
-	else if (data.shape === "Triangle") {
-		user_shape = new Triangle();
-		
-	}
-	else {
-		console.log("Invalid shape!");
-	}
-	user_shape.setColor(user_shape_color)
-    writeToFile("logo.svg", data);
-  });
+  inquirer
+    .prompt(questions)
+    .then((data) => {
+      let user_shape;
+      if (data.pixel_image === "Square") {
+        user_shape = new square();
+      } else if (data.pixel_image === "Circle") {
+        user_shape = new circle();
+        console.log("User selected Circle shape");
+      } else if (data.pixel_image === "Triangle") {
+        user_shape = new triangle();
+      } else {
+        console.log("Invalid shape!");
+      }
+      user_shape.setColor(data.shape);
+      return { user_shape, data };
+    })
+    .then(({ user_shape, data }) => {
+      const svgLogo = new svg();
+      svgLogo.setText(data.text, data.text_color);
+      svgLogo.setShape(user_shape.render());
+      return svgLogo.render();
+    })
+    .then((data) => {
+      writeToFile("logo.svg", data);
+    });
 }
+init();
