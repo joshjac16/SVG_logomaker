@@ -1,4 +1,4 @@
 <svg width="400" height="400" version="1.1" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="150,18 244,182 56,182" fill="red"></polygon>
-    <text text-anchor="middle" fill="blue">RUN</text>
+    <rect x="50" height="200" width="200" fill="green"></rect>
+    <text xmlns="http://www.w3.org/2000/svg" x="150" y="125" font-size="55" text-anchor="middle" fill="white">SVG</text>
     </svg>
