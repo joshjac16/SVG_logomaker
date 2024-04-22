@@ -69,6 +69,7 @@ node index.js
 2. **Color Selection:** Choose a color for your logo and shape by entering a color or hex number.
 3. **Shape Selection\*:** Select a shape (e.g., circle, square, triangle) to use as the base of your logo.
 4. **SVG File Creation:** After providing the necessary details, the application will generate an SVG file named **logo.svg** in the current directory.
+5. **Video Tutorial** [Tutorial](https://drive.google.com/file/d/1ufoCxw5Rcqo1pQMPtDFEgy5pWy69DsYT/view)
 
 ## Screenshot
 
