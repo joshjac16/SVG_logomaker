@@ -1,8 +1,10 @@
+// Importing necessary modules
 const fs = require("fs");
 const inquirer = require("inquirer");
 const { circle, square, triangle } = require("./lib/shapes");
 const svg = require("./lib/svg");
 
+// Function to validate user input for text field
 function validateInput(value) {
   if (value.length > 0 && value.length < 4) {
     return true;
@@ -14,6 +16,7 @@ function validateInput(value) {
   }
 }
 
+// Array of questions for user input
 const questions = [
   {
     type: "input",
@@ -39,6 +42,7 @@ const questions = [
   },
 ];
 
+// Function to write data to a file
 function writeToFile(fileName, data) {
   fs.writeFile(fileName, data, function (err) {
     if (err) {
@@ -46,11 +50,15 @@ function writeToFile(fileName, data) {
     }
   });
 }
+
+// Function to initialize the program
 function init() {
+  // Prompt user with questions
   inquirer
     .prompt(questions)
     .then((data) => {
       let user_shape;
+      // Determine which shape the user selected
       if (data.pixel_image === "Square") {
         user_shape = new square();
       } else if (data.pixel_image === "Circle") {
@@ -61,17 +69,22 @@ function init() {
       } else {
         console.log("Invalid shape!");
       }
+      // Set color for the selected shape
       user_shape.setColor(data.shape);
       return { user_shape, data };
     })
     .then(({ user_shape, data }) => {
+      // Create an SVG logo with user's text and shape
       const svgLogo = new svg();
       svgLogo.setText(data.text, data.text_color);
       svgLogo.setShape(user_shape.render());
       return svgLogo.render();
     })
     .then((data) => {
+      // Write SVG data to a file
       writeToFile("logo.svg", data);
     });
 }
+
+// Call the init function to start the program
 init();
